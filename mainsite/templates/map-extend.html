@@ -1,0 +1,30 @@
+{% extends 'map.html' %}
+{% block content %} 
+
+
+{% for record in records %}
+    <label>name : {{ record.name }}</label>
+    <br>
+    <label>start: {{ record.start }}</label>
+    <br>
+    <label>end: {{ record.end }}</label>
+    <br>
+    <label>time: {{ record.dateTime }}</label>
+    <br>
+    <div id="map-{{ forloop.counter }}" style = "width:250px; height:250px;"></div> 
+    
+
+    <script>
+        var map{{ forloop.counter }} = L.map('map-{{ forloop.counter }}').setView([{{ record.startPlace.y }}, {{ record.startPlace.x }}], 3);  // 创建地图实例
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map{{ forloop.counter }}); 
+
+        var startMarker{{ forloop.counter }} = L.marker([{{ record.startPlace.y }}, {{ record.startPlace.x }}]).addTo(map{{ forloop.counter }});
+        var endMarker{{ forloop.counter }} = L.marker([{{ record.endPlace.y }}, {{ record.endPlace.x }}]).addTo(map{{ forloop.counter }});
+    </script>
+{% endfor %}
+
+{% endblock %}
